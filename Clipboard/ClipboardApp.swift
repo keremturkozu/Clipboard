@@ -1,32 +1,22 @@
-//
-//  ClipboardApp.swift
-//  Clipboard
-//
-//  Created by Kerem Türközü on 6.05.2025.
-//
-
 import SwiftUI
-import SwiftData
 
 @main
 struct ClipboardApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        Settings {
+            EmptyView()
         }
-        .modelContainer(sharedModelContainer)
     }
 }
+
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    var menuBarController: MenuBarController?
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        NSApp.setActivationPolicy(.accessory)
+        menuBarController = MenuBarController()
+        ClipboardMonitor.shared.startMonitoring()
+    }
+} 
