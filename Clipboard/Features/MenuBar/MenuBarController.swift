@@ -38,11 +38,49 @@ final class MenuBarController: NSObject {
 
     private func showMenu() {
         let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q"))
+
+        let aboutItem = NSMenuItem(title: "About", action: #selector(showAbout), keyEquivalent: "i")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
+
+        let supportItem = NSMenuItem(title: "Support", action: #selector(openSupport), keyEquivalent: "s")
+        supportItem.target = self
+        menu.addItem(supportItem)
+
+        let privacyItem = NSMenuItem(title: "Privacy Policy", action: #selector(openPrivacyPolicy), keyEquivalent: "p")
+        privacyItem.target = self
+        menu.addItem(privacyItem)
+
+        menu.addItem(NSMenuItem.separator())
+
+        let quitItem = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
+        quitItem.target = self
+        menu.addItem(quitItem)
+
         statusItem.menu = menu
         statusItem.button?.performClick(nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.statusItem.menu = nil
+        }
+    }
+
+    @objc private func showAbout() {
+        let alert = NSAlert()
+        alert.messageText = "CopyBoard – Quick Paste"
+        alert.informativeText = "A modern, privacy-first menubar clipboard app for macOS. Pin, copy, and organize your clips instantly."
+        alert.alertStyle = .informational
+        alert.runModal()
+    }
+
+    @objc private func openSupport() {
+        if let url = URL(string: "mailto:turkozukerem@gmail.com") {
+            NSWorkspace.shared.open(url)
+        }
+    }
+
+    @objc private func openPrivacyPolicy() {
+        if let url = URL(string: "https://keremturkozu.github.io/copyboard-privacy.html") {
+            NSWorkspace.shared.open(url)
         }
     }
 
