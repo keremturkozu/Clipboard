@@ -9,9 +9,9 @@ struct PinnedGridView: View {
     var body: some View {
         ZStack {
             Color.modernGridBG.ignoresSafeArea()
-        ScrollView {
+            ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(viewModel.items) { item in
+                    ForEach(viewModel.items) { item in
                         PinnedGridCard(item: item,
                                        isCopied: copiedItemID == item.id,
                                        onUnpin: { viewModel.togglePin(for: item) },
@@ -23,12 +23,14 @@ struct PinnedGridView: View {
                             }
                         })
                     }
-                    ForEach(viewModel.items.count..<9, id: \ .self) { _ in
-                        RoundedRectangle(cornerRadius: 18, style: .continuous)
-                            .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-                            .background(VisualEffectBlur())
-                            .frame(height: 120)
-                            .opacity(0.4)
+                    if viewModel.items.count < 9 {
+                        ForEach(viewModel.items.count..<9, id: \ .self) { _ in
+                            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                                .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+                                .background(VisualEffectBlur())
+                                .frame(height: 120)
+                                .opacity(0.4)
+                        }
                     }
                 }
                 .padding(.horizontal, 16)
@@ -65,26 +67,26 @@ struct PinnedGridCard: View {
                 .animation(.easeInOut(duration: 0.2), value: isHovering)
             VStack(alignment: .leading, spacing: 8) {
                 Spacer(minLength: 8)
-                            Text(item.content)
-                                .font(.body)
+                Text(item.content)
+                    .font(.body)
                     .lineLimit(5)
                     .truncationMode(.tail)
-                                .foregroundColor(.primary)
+                    .foregroundColor(.primary)
                     .padding(.horizontal, 10)
                     .padding(.top, 8)
-                            Spacer()
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             VStack {
                 HStack {
                     Spacer()
                     Button(action: onUnpin) {
-                            Image(systemName: "pin.slash")
-                                .foregroundColor(.red)
+                        Image(systemName: "pin.slash")
+                            .foregroundColor(.red)
                             .padding(7)
                             .background(.thinMaterial, in: Circle())
                             .shadow(radius: 1)
-                }
+                    }
                     .buttonStyle(PlainButtonStyle())
                 }
                 Spacer()
@@ -118,8 +120,8 @@ struct PinnedGridCard: View {
         }
         .scaleEffect(isHovering ? 1.03 : 1.0)
         .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isHovering)
-                }
-            }
+    }
+}
 
 // macOS için blur efekti
 // struct VisualEffectBlur: NSViewRepresentable {

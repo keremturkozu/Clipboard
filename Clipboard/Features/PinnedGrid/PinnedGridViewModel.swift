@@ -16,12 +16,17 @@ final class PinnedGridViewModel: ObservableObject {
     }
 
     func fetchItems() {
-        items = dataStore.fetchAll().filter { $0.isPinned }.prefix(9).map { $0 }
+        items = dataStore.fetchAll().filter { $0.isPinned }
     }
 
     func togglePin(for item: ClipboardItem) {
         item.isPinned.toggle()
         dataStore.update(item)
+        fetchItems()
+    }
+
+    func delete(item: ClipboardItem) {
+        dataStore.delete(item)
         fetchItems()
     }
 } 

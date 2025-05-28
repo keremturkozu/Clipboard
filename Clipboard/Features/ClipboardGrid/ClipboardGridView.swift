@@ -23,12 +23,14 @@ struct ClipboardGridView: View {
                             }
                         })
                     }
-                    ForEach(viewModel.items.count..<9, id: \ .self) { _ in
-                        RoundedRectangle(cornerRadius: 18, style: .continuous)
-                            .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-                            .background(VisualEffectBlur())
-                            .frame(height: 120)
-                            .opacity(0.4)
+                    if viewModel.items.count < 9 {
+                        ForEach(viewModel.items.count..<9, id: \ .self) { _ in
+                            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                                .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+                                .background(VisualEffectBlur())
+                                .frame(height: 120)
+                                .opacity(0.4)
+                        }
                     }
                 }
                 .padding(.horizontal, 16)

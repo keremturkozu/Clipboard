@@ -20,6 +20,6 @@ struct ClipboardMenuView: View {
                 PinnedGridView()
             }
         }
-        .frame(width: 480, height: 460)
+        .frame(width: 480, height: 450)
     }
 } 
