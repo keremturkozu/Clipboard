@@ -99,7 +99,7 @@ struct ClipboardGridCard: View {
                         Spacer()
                         Label("Copied!", systemImage: "checkmark.circle.fill")
                             .font(.caption)
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .padding(8)
                             .background(.ultraThinMaterial, in: Capsule())
                             .shadow(radius: 2)

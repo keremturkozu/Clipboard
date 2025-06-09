@@ -21,5 +21,6 @@ struct ClipboardMenuView: View {
             }
         }
         .frame(width: 480, height: 450)
+        .preferredColorScheme(.light)
     }
 } 
